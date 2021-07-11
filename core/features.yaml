@@ -1,0 +1,9 @@
+Features:
+  LastTwoFastsStartedBeforeMidnight:
+    func: "feat_LastTwoFastsStartedBeforeMidnight"
+    description: Did both of the last two fasts start before midnight.
+
+  RollingHoursMean2Fasts:
+    func: "feat_RollingHoursMean2Fasts"
+    description: mean of last two fasts.
+
