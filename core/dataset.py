@@ -19,7 +19,7 @@ def build_dataset(df):
     with open("core/features.yaml") as fd: 
         features = yaml.safe_load(fd).get("Features")
 
-    for name, feature_dict in features:
+    for name, feature_dict in features.items():
         func_name = feature_dict["func"]
         func = vars(ff)[func_name]
         df[name] = func(df)
