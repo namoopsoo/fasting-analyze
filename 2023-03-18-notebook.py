@@ -41,21 +41,27 @@ end_date = date(2023, 3, 17)
 X = [(start_date + timedelta(days=i)).strftime("%Y-%m-%d") 
      for i in range((end_date - start_date).days)]
 fig = plt.figure(figsize=(12, 4))
-ax = fig.add_subplot(111)
+ax1 = fig.add_subplot(111)
 
 data1 =  food_agg_df[food_agg_df["RawDate"] >= start_date.strftime("%Y-%m-%d")
                      ].to_dict(orient="list")
+color = "tab:red"
 x1, y1 = data1["RawDate"], data1["Calories"]
-ax.plot(x1, y1)
-x_ticks, x_labels = make_xtick_labels(X, step=7)
-ax.set_xticks(x_ticks)
-ax.set_xticklabels(x_labels, rotation=-45)
+ax1.plot(x1, y1, color=color)
+ax1.set_xlabel("Date")
+ax1.set_ylabel("Calories", color=color)
+x_ticks, x_labels = make_xtick_labels(X, step=14)
+ax1.set_xticks(x_ticks)
+ax1.set_xticklabels(x_labels, rotation=-45)
 
 # weight data, 
+color = "tab:blue"
+ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+ax2.set_ylabel("Weight (lb)", color=color)
 data2 = weight_agg_df[weight_agg_df["RawDate"] >= start_date.strftime("%Y-%m-%d")
                      ].to_dict(orient="list")
 x2, y2 = data2["RawDate"], data2["Weight (lb)"]
-ax.plot(x2, y2)
+ax2.plot(x2, y2, color=color)
 
 
 out_loc = f"output-data/{utc_ts()}-figure.png"
