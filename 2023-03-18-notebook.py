@@ -78,7 +78,7 @@ food_agg_df, weight_agg_df = get_data()
 start_date = date(2022, 1, 1) # "2023-01-01"
 end_date = date(2023, 3, 17)
 
-plot_data(start_date, end_date)
+plot_data(food_agg_df, weight_agg_df, start_date, end_date)
 
 # Try 3 day average of weight, and 3 day total, for calories, 
 
