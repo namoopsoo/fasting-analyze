@@ -40,19 +40,20 @@ def get_data():
 
 def plot_data(food_agg_df, weight_agg_df, start_date, end_date):
 
-    X = [(start_date + timedelta(days=i)).strftime("%Y-%m-%d") 
-         for i in range((end_date - start_date).days)]
-
     fig = plt.figure(figsize=(12, 4))
     ax1 = fig.add_subplot(111)
 
     color = "tab:blue"
     ax1.set_ylabel("Weight (lb)", color=color)
-    data1 = weight_agg_df[
+    narrowed_df1 = weight_agg_df[
         weight_agg_df["RawDate"] >= start_date.strftime("%Y-%m-%d")
-    ].to_dict(orient="list")
+    ]
+
+    data1 = narrowed_df1.to_dict(orient="list")
     x1, y1 = data1["RawDate"], data1["Weight (lb)"]
-    x_ticks, x_labels = make_xtick_labels(X, step=14)
+
+    X = narrowed_df1["RawDate"].tolist()
+    x_ticks, x_labels = make_xtick_labels(X, step=3)
     ax1.set_xticks(x_ticks)
     ax1.set_xticklabels(x_labels, rotation=-45)
 
