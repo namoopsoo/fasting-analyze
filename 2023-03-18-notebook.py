@@ -80,14 +80,21 @@ end_date = date(2023, 3, 17)
 
 plot_data(food_agg_df, weight_agg_df, start_date, end_date)
 
+
+def bucket_n_days(df, days):
+    df["timestamp"] = pd.to_datetime(df["RawDate"])
+    agg_df = df.groupby(pd.Grouper(key="timestamp", freq=f"{days}D")).mean().reset_index()
+    agg_df["RawDate"] = agg_df["timestamp"].map(lambda x:x.strftime("%Y-%m-%d"))
+    return agg_df
+
 # Try 3 day average of weight, and 3 day total, for calories, 
-
-weight_agg_df["timestamp"] = pd.to_datetime(weight_agg_df["RawDate"])
-weight_agg_3day_df = weight_agg_df.groupby(pd.Grouper(key='timestamp', freq='3D')).mean().reset_index()
-weight_agg_3day_df["RawDate"] = weight_agg_3day_df["timestamp"].map(lambda x:x.strftime("%Y-%m-%d"))
-
-food_agg_df["timestamp"] =  pd.to_datetime(food_agg_df["RawDate"])
-food_agg_3day_df = food_agg_df.groupby(pd.Grouper(key='timestamp', freq='3D')).mean().reset_index()
-food_agg_3day_df["RawDate"] = food_agg_3day_df["timestamp"].map(lambda x:x.strftime("%Y-%m-%d"))
-
+weight_agg_3day_df = bucket_n_days(weight_agg_df, 3)
+food_agg_3day_df  = bucket_n_days(food_agg_df, 3)
 plot_data(food_agg_3day_df, weight_agg_3day_df, start_date, end_date)
+
+# Try 7 days
+weight_agg_7day_df = bucket_n_days(weight_agg_df, 7)
+food_agg_7day_df  = bucket_n_days(food_agg_df, 7)
+plot_data(food_agg_7day_df, weight_agg_7day_df, start_date, end_date)
+
+
